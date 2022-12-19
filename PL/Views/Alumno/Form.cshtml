@@ -1,0 +1,86 @@
+﻿@model ML.Alumno
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Formulario Alumno</h2>
+    <div class="row">
+
+        <div class="col-md-12">
+
+            @using (Html.BeginForm("Form", "Alumno", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+
+                            @Html.LabelFor(model => model.IdAlumno, new { @class = "hidden" })
+                            @Html.TextBoxFor(model => model.IdAlumno, new { @class = "hidden form-control" })
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+
+                            @Html.LabelFor(model => model.Nombre)
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+                            @Html.ValidationMessageFor(model => model.Nombre)
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Genero)
+                            <div class="input-group">
+                                @Html.Label("Masculino")
+                                @Html.RadioButtonFor(model => model.Genero, "True")
+                                <div class="input-group">
+                                    @Html.Label("Femenino")
+                                    @Html.RadioButtonFor(model => model.Genero, "False")
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Edad)
+                            @Html.TextBoxFor(model => model.Edad, new { @class = "form-control" })
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+
+                            <input type="submit" value="Guardar" class="btn btn-success" />
+
+                            @Html.ActionLink("Regresar", "GetAll", "Alumno", htmlAttributes: new { @class = "btn btn-danger" })
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+</div>
+

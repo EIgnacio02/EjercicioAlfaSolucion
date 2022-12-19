@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AlfaSolutionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="IdAlumno" />
+          </Key>
+          <Property Name="IdAlumno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Genero" Type="bit" />
+          <Property Name="Edad" Type="int" />
+        </EntityType>
+        <EntityType Name="AlumnoBeca">
+          <Key>
+            <PropertyRef Name="IdAlumnoBeca" />
+          </Key>
+          <Property Name="IdAlumnoBeca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdBeca" Type="int" />
+          <Property Name="IdAlumno" Type="int" />
+        </EntityType>
+        <EntityType Name="Beca">
+          <Key>
+            <PropertyRef Name="IdBeca" />
+          </Key>
+          <Property Name="IdBeca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_AlumnoBecas">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1" />
+          <End Role="AlumnoBeca" Type="Self.AlumnoBeca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="IdAlumno" />
+            </Principal>
+            <Dependent Role="AlumnoBeca">
+              <PropertyRef Name="IdAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BecaAlumno">
+          <End Role="Beca" Type="Self.Beca" Multiplicity="0..1" />
+          <End Role="AlumnoBeca" Type="Self.AlumnoBeca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Beca">
+              <PropertyRef Name="IdBeca" />
+            </Principal>
+            <Dependent Role="AlumnoBeca">
+              <PropertyRef Name="IdBeca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AlfaSolutionModelStoreContainer">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlumnoBeca" EntityType="Self.AlumnoBeca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Beca" EntityType="Self.Beca" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AlumnoBecas" Association="Self.FK_AlumnoBecas">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="AlumnoBeca" EntitySet="AlumnoBeca" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BecaAlumno" Association="Self.FK_BecaAlumno">
+            <End Role="Beca" EntitySet="Beca" />
+            <End Role="AlumnoBeca" EntitySet="AlumnoBeca" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlfaSolutionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="IdAlumno" />
+          </Key>
+          <Property Name="IdAlumno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Genero" Type="Boolean" />
+          <Property Name="Edad" Type="Int32" />
+          <NavigationProperty Name="AlumnoBecas" Relationship="AlfaSolutionModel.FK_AlumnoBecas" FromRole="Alumno" ToRole="AlumnoBeca" />
+        </EntityType>
+        <EntityContainer Name="AlfaSolutionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alumnoes" EntityType="Self.Alumno" />
+          <EntitySet Name="AlumnoBecas" EntityType="AlfaSolutionModel.AlumnoBeca" />
+          <EntitySet Name="Becas" EntityType="AlfaSolutionModel.Beca" />
+          <AssociationSet Name="FK_AlumnoBecas" Association="AlfaSolutionModel.FK_AlumnoBecas">
+            <End Role="Alumno" EntitySet="Alumnoes" />
+            <End Role="AlumnoBeca" EntitySet="AlumnoBecas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BecaAlumno" Association="AlfaSolutionModel.FK_BecaAlumno">
+            <End Role="Beca" EntitySet="Becas" />
+            <End Role="AlumnoBeca" EntitySet="AlumnoBecas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AlumnoBeca">
+          <Key>
+            <PropertyRef Name="IdAlumnoBeca" />
+          </Key>
+          <Property Name="IdAlumnoBeca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdBeca" Type="Int32" />
+          <Property Name="IdAlumno" Type="Int32" />
+          <NavigationProperty Name="Alumno" Relationship="AlfaSolutionModel.FK_AlumnoBecas" FromRole="AlumnoBeca" ToRole="Alumno" />
+          <NavigationProperty Name="Beca" Relationship="AlfaSolutionModel.FK_BecaAlumno" FromRole="AlumnoBeca" ToRole="Beca" />
+        </EntityType>
+        <EntityType Name="Beca">
+          <Key>
+            <PropertyRef Name="IdBeca" />
+          </Key>
+          <Property Name="IdBeca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AlumnoBecas" Relationship="AlfaSolutionModel.FK_BecaAlumno" FromRole="Beca" ToRole="AlumnoBeca" />
+        </EntityType>
+        <Association Name="FK_AlumnoBecas">
+          <End Type="AlfaSolutionModel.Alumno" Role="Alumno" Multiplicity="0..1" />
+          <End Type="AlfaSolutionModel.AlumnoBeca" Role="AlumnoBeca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="IdAlumno" />
+            </Principal>
+            <Dependent Role="AlumnoBeca">
+              <PropertyRef Name="IdAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BecaAlumno">
+          <End Type="AlfaSolutionModel.Beca" Role="Beca" Multiplicity="0..1" />
+          <End Type="AlfaSolutionModel.AlumnoBeca" Role="AlumnoBeca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Beca">
+              <PropertyRef Name="IdBeca" />
+            </Principal>
+            <Dependent Role="AlumnoBeca">
+              <PropertyRef Name="IdBeca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AlfaSolutionModelStoreContainer" CdmEntityContainer="AlfaSolutionEntities">
+          <EntitySetMapping Name="Alumnoes">
+            <EntityTypeMapping TypeName="AlfaSolutionModel.Alumno">
+              <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlumnoBecas">
+            <EntityTypeMapping TypeName="AlfaSolutionModel.AlumnoBeca">
+              <MappingFragment StoreEntitySet="AlumnoBeca">
+                <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
+                <ScalarProperty Name="IdBeca" ColumnName="IdBeca" />
+                <ScalarProperty Name="IdAlumnoBeca" ColumnName="IdAlumnoBeca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Becas">
+            <EntityTypeMapping TypeName="AlfaSolutionModel.Beca">
+              <MappingFragment StoreEntitySet="Beca">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdBeca" ColumnName="IdBeca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,51 @@
+﻿@model ML.AlumnoBeca 
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h2>Alumno Becas</h2>
+
+    <div class="row">
+        <div style="float:right">
+            @Html.ActionLink("Agregar", "Form", "AlumnoBecas", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+
+    </div>
+
+
+    <br />
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Editar</th>
+
+                @*<th>Id Alumno</th>*@
+                <th>Nombre Alumno </th>
+                <th>Nombre Beca</th>
+
+                <th>Eliminar</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.AlumnoBeca alumnoBeca in Model.AlumnoBecas)
+            {
+                <tr>
+                    <td class="text-center"><a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "AlumnoBecas", new { IdAlumno = alumnoBeca.Alumno.IdAlumno})"></a></td>
+
+                    @*<td>@alumno.IdAlumno</td>*@
+
+                    <td>@alumnoBeca.Alumno.Nombre</td>
+                    <td>@alumnoBeca.Beca.Nombre</td>
+
+
+                    <td class="text-center"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "AlumnoBecas", new { IdAlumnoBeca = alumnoBeca.IdAlumnoBeca })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
